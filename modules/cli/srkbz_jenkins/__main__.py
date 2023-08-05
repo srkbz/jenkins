@@ -1,13 +1,20 @@
 import click
+import tomli
+
+from srkbz_jenkins.config.model import Config
 
 
-@click.command()
-@click.option("--count", default=1, help="Number of greetings.")
-@click.option("--name", prompt="Your name", help="The person to greet.")
-def hello(count, name):
-    """Simple program that greets NAME for a total of COUNT times."""
-    for _ in range(count):
-        click.echo(f"Hello, {name}!")
+@click.group(name="heh")
+def cli():
+    pass
 
 
-hello()
+@cli.command()
+def test():
+    with open("config/config.toml", "rb") as f:
+        toml_dict = tomli.load(f)
+    print(toml_dict)
+    print(Config(**toml_dict))
+
+
+cli()
