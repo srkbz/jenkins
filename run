@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1091
+set -euo pipefail
+root="$(dirname "${BASH_SOURCE[0]}")"
+if [ ! -d "${root}/venv" ]; then
+    python3 -m venv "${root}/venv"
+    source "${root}/venv/bin/activate"
+    python3 -m pip install -r "${root}/modules/cli/requirements.txt"
+else
+    source "${root}/venv/bin/activate"
+fi
+export PYTHONPATH="${root}/modules/cli:${PYTHONPATH:-}"
+exec python3 -m srkbz_jenkins "$@"
