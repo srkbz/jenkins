@@ -26,6 +26,10 @@
     },
     "[python]": {
       "editor.tabSize": 4,
+    },
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/*.pyc": true
     }
   },
   "extensions": {
