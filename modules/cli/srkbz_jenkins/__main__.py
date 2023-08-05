@@ -1,7 +1,5 @@
 import click
-import tomli
-
-from srkbz_jenkins.config.model import Config
+from srkbz_jenkins.binaries.java_manager import java_manager
 
 
 @click.group(name="heh")
@@ -11,10 +9,7 @@ def cli():
 
 @cli.command()
 def test():
-    with open("config/config.toml", "rb") as f:
-        toml_dict = tomli.load(f)
-    print(toml_dict)
-    print(Config(**toml_dict))
+    java_manager.install("17")
 
 
 cli()
