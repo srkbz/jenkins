@@ -1,4 +1,5 @@
 import platform
+from os import makedirs
 from os.path import join
 from dataclasses import dataclass
 
@@ -20,8 +21,18 @@ class JavaManager:
         self._paths_provider = paths_provider
 
     def install(self, version: str):
-        print(join(self._paths_provider.get_binaries_dir(), "java", version))
-        print(self._get_package_info(version))
+        binaries_dir = self._paths_provider.get_binaries_dir()
+        installation_dir = join(binaries_dir, "java", version, "packages")
+        package_info = self._get_package_info(version)
+        makedirs(installation_dir, exist_ok=True)
+
+        downloaded = 0
+        with open(join(installation_dir, "package.tar.gz"), "wb") as f:
+            response = requests.get(package_info.url, allow_redirects=True, stream=True)
+            for data in response.iter_content(chunk_size=1024):
+                f.write(data)
+                downloaded += len(data)
+                print(downloaded)
 
     def _get_package_info(self, version: str) -> _PackageInfo:
         adoptium_api_url = self._get_adoptium_api_url(version)
@@ -30,6 +41,7 @@ class JavaManager:
             headers={
                 "User-Agent": "fuck you azure https://stackoverflow.com/a/71292611"
             },
+            allow_redirects=True,
         )
 
         for item in response.json():
