@@ -1,5 +1,5 @@
 import click
-from srkbz_jenkins.binaries.jenkins_manager import jenkins_manager
+from srkbz_jenkins.commands.install_command import install_command
 
 
 @click.group(name="heh")
@@ -8,8 +8,8 @@ def cli():
 
 
 @cli.command()
-def test():
-    jenkins_manager.install("2.417")
+def install():
+    install_command.run()
 
 
 cli()
