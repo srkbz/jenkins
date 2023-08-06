@@ -28,6 +28,10 @@ class JavaManager:
         self._logger = logger
         self._paths_provider = paths_provider
 
+    def get_home_dir(self, version: str):
+        binaries_dir = self._paths_provider.get_binaries_dir()
+        return join(binaries_dir, "java", version, "home")
+
     def install(self, version: str):
         binaries_dir = self._paths_provider.get_binaries_dir()
 

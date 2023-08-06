@@ -11,6 +11,10 @@ class JenkinsManager:
         self._logger = logger
         self._paths_provider = paths_provider
 
+    def get_war_file(self, version: str):
+        binaries_dir = self._paths_provider.get_binaries_dir()
+        return join(binaries_dir, "jenkins", version, "jenkins.war")
+
     def install(self, version: str):
         binaries_dir = self._paths_provider.get_binaries_dir()
         version_dir = join(binaries_dir, "jenkins", version)

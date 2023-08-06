@@ -1,3 +1,7 @@
 [jenkins]
 version = "2.417"
 java_version = "17"
+plugin_manager_version = "2.12.13"
+
+[jenkins.plugins]
+configuration-as-code = "1670.v564dc8b_982d0"

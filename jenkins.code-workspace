@@ -27,6 +27,9 @@
     "[python]": {
       "editor.tabSize": 4,
     },
+    "[yaml]": {
+      "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
     "files.exclude": {
       "**/__pycache__": true,
       "**/*.pyc": true
@@ -36,7 +39,8 @@
     "recommendations": [
       "ms-python.python",
       "ms-python.vscode-pylance",
-      "tamasfe.even-better-toml"
+      "tamasfe.even-better-toml",
+      "redhat.vscode-yaml"
     ]
   }
 }
