@@ -22,3 +22,4 @@ class JenkinsManager:
 
 
 jenkins_manager = JenkinsManager(paths_provider)
+# https://github.com/jenkinsci/plugin-installation-manager-tool
