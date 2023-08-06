@@ -1,6 +1,6 @@
 {
-    "files.exclude": {
-        "config": true,
-        "modules": true
-    }
+  "files.exclude": {
+    "config": true,
+    "modules": true
+  }
 }

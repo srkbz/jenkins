@@ -1,13 +1,16 @@
 import platform
-from os import makedirs, symlink
-from os.path import join
-from dataclasses import dataclass
+from os import makedirs, symlink, remove
+from os.path import join, isfile, isdir, exists
+from pathlib import Path
+from dataclasses import dataclass, asdict
 import tarfile
+import shutil
+import json
 
 import requests
-from tqdm import tqdm
 
 from srkbz_jenkins.paths.paths_provider import PathsProvider, paths_provider
+from srkbz_jenkins.utils.download_file import download_file
 
 
 @dataclass
@@ -30,36 +33,34 @@ class JavaManager:
         package_dir = join(version_dir, "package")
         package_contents_dir = join(package_dir, "contents")
         package_file = join(package_dir, "package.tar.gz")
+        package_info_file = join(package_dir, "info.json")
         home_dir = join(version_dir, "home")
 
-        package_info = self._get_package_info(version)
+        if not exists(package_info_file):
+            package_info = self._get_package_info(version)
+            with open(package_info_file, "w") as f:
+                f.write(json.dumps(asdict(package_info), indent=2))
+        else:
+            with open(package_info_file, "r") as f:
+                package_info = _PackageInfo(**json.loads(f.read()))
 
-        makedirs(package_contents_dir, exist_ok=True)
+        if not exists(package_file):
+            makedirs(package_dir, exist_ok=True)
+            download_file(
+                package_info.url,
+                package_file,
+                f"Java {version}",
+            )
+            shutil.rmtree(package_contents_dir, ignore_errors=True)
 
-        self._download_file(
-            package_info.url,
-            package_file,
-            f"Java {version}",
-        )
-        package = tarfile.open(package_file)
-        package.extractall(package_contents_dir)
-        symlink(join(package_contents_dir, package_info.home_path), home_dir)
+        if not exists(package_contents_dir):
+            makedirs(package_contents_dir, exist_ok=True)
+            package = tarfile.open(package_file)
+            package.extractall(package_contents_dir)
+            shutil.rmtree(home_dir, ignore_errors=True)
 
-    def _download_file(
-        self, url: str, destination: str, description: str, chunk_size: int = 1024
-    ):
-        resp = requests.get(url, allow_redirects=True, stream=True)
-        total = int(resp.headers.get("content-length", 0))
-        with open(destination, "wb") as file, tqdm(
-            desc=description,
-            total=total,
-            unit="iB",
-            unit_scale=True,
-            unit_divisor=1024,
-        ) as bar:
-            for data in resp.iter_content(chunk_size=chunk_size):
-                size = file.write(data)
-                bar.update(size)
+        if not exists(home_dir):
+            symlink(join(package_contents_dir, package_info.home_path), home_dir)
 
     def _get_package_info(self, version: str) -> _PackageInfo:
         adoptium_api_url = self._get_adoptium_api_url(version)
