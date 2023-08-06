@@ -1,5 +1,5 @@
 import click
-from srkbz_jenkins.binaries.java_manager import java_manager
+from srkbz_jenkins.binaries.jenkins_manager import jenkins_manager
 
 
 @click.group(name="heh")
@@ -9,7 +9,7 @@ def cli():
 
 @cli.command()
 def test():
-    java_manager.install("17")
+    jenkins_manager.install("2.417")
 
 
 cli()
