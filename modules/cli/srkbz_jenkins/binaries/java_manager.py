@@ -20,7 +20,10 @@ class _PackageInfo:
     home_path: str
 
 
-_adoptium_platform_mapper = {"Darwin_arm64": ("mac", "aarch64", "Contents/Home")}
+_adoptium_platform_mapper = {
+    "Darwin_arm64": ("mac", "aarch64", "Contents/Home"),
+    "Linux_x64_64": ("linux", "x64", ""),
+}
 
 
 class JavaManager:
