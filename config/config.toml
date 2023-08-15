@@ -5,6 +5,7 @@ plugin_manager_version = "2.12.13"
 
 [jenkins.plugins]
 configuration-as-code = "1670.v564dc8b_982d0"
+libvirt-slave = "262.v98a_c85b_98c0a_"
 workflow-aggregator = "596.v8c21c963d92d"
 credentials-binding = "631.v861c06d062b_4"
 git = "5.2.0"
