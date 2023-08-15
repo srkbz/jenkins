@@ -30,6 +30,7 @@ class StartCommand:
             [join(java_home, "bin", "java"), "-jar", jenkins_war],
             env=dict(
                 environ,
+                JAVA_OPTS="-Djenkins.install.runSetupWizard=false",
                 JENKINS_HOME=join(self._paths_provider.get_jenkins_home_dir()),
                 CASC_JENKINS_CONFIG=join(
                     self._paths_provider.get_config_dir(), "jcasc.yaml"
