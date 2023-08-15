@@ -48,6 +48,7 @@ class JavaManager:
         if not exists(package_info_file):
             self._logger.info(f"Getting package information for Java {version}")
             package_info = self._get_package_info(version)
+            makedirs(package_dir, exist_ok=True)
             with open(package_info_file, "w") as f:
                 f.write(json.dumps(asdict(package_info), indent=2))
         else:
