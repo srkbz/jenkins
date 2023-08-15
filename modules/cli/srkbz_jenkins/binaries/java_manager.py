@@ -22,7 +22,7 @@ class _PackageInfo:
 
 _adoptium_platform_mapper = {
     "Darwin_arm64": ("mac", "aarch64", "Contents/Home"),
-    "Linux_x64_64": ("linux", "x64", ""),
+    "Linux_x86_64": ("linux", "x64", ""),
 }
 
 
