@@ -3,7 +3,7 @@ from srkbz_jenkins.commands.install_command import install_command
 from srkbz_jenkins.commands.start_command import start_command
 
 
-@click.group(name="heh")
+@click.group()
 def cli():
     pass
 
