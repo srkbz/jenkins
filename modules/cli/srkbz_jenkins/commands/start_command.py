@@ -27,7 +27,12 @@ class StartCommand:
         jenkins_war = self._jenkins_manager.get_war_file(config.jenkins.version)
 
         run(
-            [join(java_home, "bin", "java"), "-jar", jenkins_war],
+            [
+                join(java_home, "bin", "java"),
+                "-Djava.awt.headless=true",
+                "-jar",
+                jenkins_war,
+            ],
             env=dict(
                 environ,
                 JENKINS_HOME=join(self._paths_provider.get_jenkins_home_dir()),
